@@ -26,7 +26,8 @@ function addTodos(){
      todoListUl.append(todoItem)
     })
  }
-function createTodoItem(todo){
+function createTodoItem(todo,todoIndex){
+    const todoId = "todo"+todoIndex
     const todoLi = document.createElement("li");
     todoLi.className ="todo";
     todoLi.innerHTML =`
