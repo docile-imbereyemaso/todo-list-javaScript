@@ -2,7 +2,9 @@ const todoForm = document.querySelector("form");
 const todoInput = document.getElementById("todo-input");
 const todoListUl = document.querySelector(".todo-list");
 
-let allTodos =[];
+let allTodos = getTodos();
+updateTodoList();
+console.log(allTodos)
 todoForm.addEventListener("submit",(event)=>{
     event.preventDefault();
     addTodos();
@@ -14,6 +16,7 @@ function addTodos(){
          if(todoText.length>0){
            allTodos.push(todoText);
            updateTodoList();
+           saveTodos();
            todoInput.value ="";
         
          }
@@ -32,14 +35,14 @@ function createTodoItem(todo,todoIndex){
     todoLi.className ="todo";
     todoLi.innerHTML =`
         
-                <input type="checkbox" id="todo-1">
-                    <label for="todo-1" class="custom-checkbox">
+                <input type="checkbox" id="${todoId}">
+                    <label for="${todoId}" class="custom-checkbox">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" class="tick-icon">
                         <path d="M5 13L9 17L19 7" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                     </label>
-                  <label for="todo-text" class="todo-text">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum, cupiditate.
+                  <label for="${todoId}" class="todo-text">
+                     ${todo}
                   </label>
                   <button class="delete-button">
                    <svg xmlns="http://www.w3.org/2000/svg" fill="var(--secondary-color)" viewBox="0 0 24 24"
@@ -55,5 +58,24 @@ function createTodoItem(todo,todoIndex){
                   </button>
              
     `
+    const deleteButton = todoLi.querySelector(".delete-button");
+    deleteButton.addEventListener("click",()=>{
+       deleteTodoItem(todoIndex)
+    })
     return todoLi
+}
+
+function deleteTodoItem(todoIndex){
+  
+}
+
+function saveTodos(){
+  const todosJson = JSON.stringify(allTodos)
+  localStorage.setItem("todos",todosJson);
+}
+
+function getTodos (){
+  const todos  = localStorage.getItem("todos")||"[]";
+  
+  return JSON.parse(todos)
 }
